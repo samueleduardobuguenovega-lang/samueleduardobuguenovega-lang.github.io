@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samuel Bugueño Vega — desarrollo web y Android</title>
+<meta name="description" content="Portafolio de Samuel Bugueño Vega: aplicaciones web y Android en producción, con pruebas, documentación y despliegue propio.">
+<meta name="theme-color" content="#0B0A09">
+<meta property="og:title" content="Samuel Bugueño Vega — desarrollo web y Android">
+<meta property="og:description" content="Dos sitios en producción, una app Android publicada y un shooter cooperativo en Godot.">
+<meta property="og:type" content="website">
+<link rel="preload" href="assets/fonts/iserif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/isans.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Instrument Serif";src:url("assets/fonts/iserif.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("assets/fonts/iserif-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("assets/fonts/isans.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
+
+:root{
+  --ink:#0B0A09;
+  --ink-2:#12110F;
+  --paper:#F2EEE6;
+  --muted:#9C958A;
+  --line:rgba(242,238,230,.13);
+  --line-strong:rgba(242,238,230,.24);
+  --accent:#C9713F;
+  --accent-soft:rgba(201,113,63,.14);
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --pad:clamp(20px,4vw,56px);
+  --rail:min(30vw,360px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--ink);color:var(--paper);
+  font-family:var(--sans);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+/* texture: fine noise, no gradients */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{margin:0;font-weight:400}
+p{margin:0}
+::selection{background:var(--accent);color:#0B0A09}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:400}
+.skip{position:absolute;left:-9999px;top:0;background:var(--paper);color:var(--ink);padding:12px 18px;z-index:100}
+.skip:focus{left:12px;top:12px}
+
+/* ============ LAYOUT ============ */
+.shell{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100vh}
+@media (max-width:1023px){.shell{grid-template-columns:1fr}}
+
+/* ============ RAIL ============ */
+.rail{
+  position:sticky;top:0;height:100vh;
+  padding:clamp(26px,3.4vw,48px) var(--pad);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:clamp(22px,3vw,40px);
+  background:
+    radial-gradient(120% 90% at 0% 0%,rgba(201,113,63,.07),transparent 60%),
+    var(--ink);
+}
+.rail__mark{display:flex;align-items:center;gap:10px}
+.rail__dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.rail h1{
+  font-family:var(--serif);font-size:clamp(38px,5.4vw,58px);line-height:.94;letter-spacing:-.02em;
+}
+.rail h1 em{font-style:italic;color:var(--accent)}
+.rail__role{color:var(--muted);font-size:15px;line-height:1.5;max-width:26ch}
+.rail__nav{display:flex;flex-direction:column;gap:2px;margin-top:auto}
+.rail__nav a{
+  display:flex;gap:14px;align-items:baseline;padding:7px 0;
+  border-top:1px solid transparent;color:var(--muted);
+  transition:color .35s var(--ease),padding-left .35s var(--ease);
+}
+.rail__nav a .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;opacity:.55}
+.rail__nav a .t{font-size:14px;letter-spacing:.01em}
+.rail__nav a:hover,.rail__nav a[aria-current="true"]{color:var(--paper);padding-left:6px}
+.rail__nav a[aria-current="true"] .n{color:var(--accent);opacity:1}
+.rail__meta{border-top:1px solid var(--line);padding-top:18px;display:grid;gap:9px;color:var(--muted)}
+.rail__meta b{color:var(--paper);font-weight:500}
+.rail__meta a:hover{color:var(--accent)}
+
+@media (max-width:1023px){
+  .rail{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line);gap:20px}
+  .rail h1{font-size:clamp(34px,10vw,48px)}
+  .rail__nav{flex-direction:row;flex-wrap:wrap;gap:4px 18px;margin-top:6px}
+  .rail__nav a{padding:4px 0}
+  .rail__meta{display:none}
+}
+
+/* ============ MAIN ============ */
+main{min-width:0}
+section{padding:clamp(56px,7vw,104px) var(--pad);border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.kicker{display:flex;align-items:center;gap:12px;color:var(--muted);margin-bottom:clamp(24px,3vw,38px)}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* hero */
+.hero{padding-top:clamp(48px,6vw,88px)}
+.hero h2{
+  font-family:var(--serif);font-size:clamp(40px,6.6vw,80px);line-height:.98;letter-spacing:-.025em;
+  max-width:19ch;
+}
+.hero h2 em{font-style:italic;color:var(--accent)}
+.hero__lead{margin-top:clamp(24px,3vw,36px);max-width:56ch;font-size:clamp(17px,1.35vw,20px);color:#D9D3C8}
+.ledger{
+  margin-top:clamp(36px,4.5vw,58px);display:grid;gap:0;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border-top:1px solid var(--line-strong);
+}
+.ledger div{padding:16px 18px 16px 0;border-bottom:1px solid var(--line)}
+.ledger .num{font-family:var(--serif);font-size:clamp(30px,3.4vw,42px);line-height:1;display:block;color:var(--paper)}
+.ledger .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:8px}
+
+/* ============ CASES ============ */
+.case{display:grid;grid-template-columns:clamp(38px,5vw,72px) 1fr;gap:clamp(14px,2.4vw,32px);padding:clamp(34px,4.6vw,58px) 0;border-top:1px solid var(--line)}
+.case:first-of-type{border-top:0;padding-top:0}
+.case__idx{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:10px;letter-spacing:.1em}
+.case__top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.case h3{font-family:var(--serif);font-size:clamp(28px,3.6vw,44px);line-height:1.04;letter-spacing:-.02em}
+.case h3 span{color:var(--muted);font-family:var(--sans);font-size:15px;letter-spacing:0;display:block;margin-top:8px;font-weight:400}
+.case__link{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:1px solid var(--line-strong);padding-bottom:3px;white-space:nowrap;
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.case__link:hover{color:var(--accent);border-color:var(--accent)}
+.case__body{margin-top:18px;display:grid;gap:26px}
+.case__text{max-width:58ch;color:#D5CFC4}
+.case__text strong{color:var(--paper);font-weight:500}
+.meta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px 26px;
+  margin-top:4px;padding-top:18px;border-top:1px solid var(--line);
+}
+.meta dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.meta dd{margin:0;font-size:14px;color:var(--paper);line-height:1.5}
+.meta dd .sep{color:var(--muted);padding:0 6px}
+
+/* media */
+.shots{display:grid;gap:14px;align-items:start}
+.shots--duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.shots--phone{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));max-width:620px}
+.phone{
+  position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--line-strong);
+  background:#000;box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
+}
+.phone::after{content:"";position:absolute;inset:0;border-radius:26px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);pointer-events:none}
+.phone img{width:100%}
+.desktop{border-radius:10px;overflow:hidden;border:1px solid var(--line-strong);box-shadow:0 30px 70px -40px rgba(0,0,0,.95)}
+.desktop img{width:100%}
+figure{margin:0}
+figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+
+/* plate: honest, sin captura falsa */
+.plate{
+  border:1px solid var(--line-strong);border-radius:10px;padding:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);
+  font-family:var(--mono);font-size:12px;line-height:1.9;color:#CFC8BC;
+}
+.plate__head{display:flex;justify-content:space-between;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+.plate ul{list-style:none;margin:0;padding:0}
+.plate li{display:flex;gap:12px;border-bottom:1px dashed rgba(242,238,230,.08);padding:4px 0}
+.plate li:last-child{border-bottom:0}
+.plate li i{font-style:normal;color:var(--accent);min-width:2ch}
+
+/* ============ STACK ============ */
+.grid3{display:grid;gap:clamp(22px,3vw,40px);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.stackcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:400;padding-bottom:10px;border-bottom:1px solid var(--line-strong)}
+.stackcol ul{list-style:none;margin:0;padding:0}
+.stackcol li{padding:6px 0;font-size:15.5px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(242,238,230,.06)}
+.stackcol li span{color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding-top:4px}
+
+/* ============ MÉTODO ============ */
+.principles{counter-reset:p;display:grid;gap:0}
+.principle{
+  counter-increment:p;display:grid;grid-template-columns:clamp(38px,5vw,72px) 1fr;gap:clamp(14px,2.4vw,32px);
+  padding:clamp(22px,2.8vw,32px) 0;border-top:1px solid var(--line);
+}
+.principle:first-child{border-top:0}
+.principle::before{content:"0" counter(p);font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.1em;padding-top:6px}
+.principle h4{font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);line-height:1.15;margin:0 0 8px;letter-spacing:-.01em}
+.principle p{color:#CFC9BE;max-width:62ch;font-size:15.5px}
+.principle p em{color:var(--muted);font-style:normal}
+.quote{margin-top:10px;border-left:1px solid var(--accent);padding:2px 0 2px 16px;color:var(--muted);font-size:14.5px;max-width:62ch}
+
+/* ============ FORMACIÓN ============ */
+.rows{display:grid;gap:0;border-top:1px solid var(--line-strong)}
+.row{display:grid;grid-template-columns:clamp(96px,14vw,150px) 1fr;gap:clamp(12px,2.4vw,32px);padding:20px 0;border-bottom:1px solid var(--line)}
+.row__when{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:5px}
+.row__what strong{display:block;font-weight:500;font-size:17px;margin-bottom:4px}
+.row__what span{color:#C6C0B5;font-size:15px}
+
+/* ============ CONTACTO ============ */
+.contact{padding-bottom:clamp(64px,8vw,120px)}
+.contact h2{font-family:var(--serif);font-size:clamp(34px,5.4vw,64px);line-height:1.02;letter-spacing:-.02em;max-width:24ch}
+.contact h2 em{font-style:italic;color:var(--accent)}
+.contact__links{margin-top:clamp(28px,4vw,44px);display:grid;gap:2px}
+.contact__links a{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:16px 0;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--paper);
+  transition:color .3s var(--ease),padding-left .3s var(--ease);
+}
+.contact__links a:last-child{border-bottom:1px solid var(--line)}
+.contact__links a span:last-child{color:var(--muted)}
+.contact__links a:hover{color:var(--accent);padding-left:8px}
+.contact__links a:hover span:last-child{color:var(--accent)}
+
+footer{padding:clamp(26px,3vw,36px) var(--pad);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;color:var(--muted)}
+footer a:hover{color:var(--accent)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+.shots img{transition:transform .7s var(--ease)}
+.case:hover .shots img{transform:scale(1.012)}
+</style>
+</head>
+<body>
+<a class="skip" href="#trabajo">Saltar al trabajo</a>
+<div class="shell">
+
+  <header class="rail">
+    <div class="rail__mark">
+      <span class="rail__dot" aria-hidden="true"></span>
+      <span class="mono">Portafolio · 2026</span>
+    </div>
+    <div>
+      <h1>Samuel<br><em>Bugueño</em><br>Vega</h1>
+      <p class="rail__role" style="margin-top:16px">Desarrollo web y Android. Analista Programador en curso.</p>
+    </div>
+    <nav class="rail__nav" aria-label="Secciones">
+      <a href="#trabajo"><span class="n">01</span><span class="t">Trabajo</span></a>
+      <a href="#stack"><span class="n">02</span><span class="t">Herramientas</span></a>
+      <a href="#metodo"><span class="n">03</span><span class="t">Cómo trabajo</span></a>
+      <a href="#formacion"><span class="n">04</span><span class="t">Formación</span></a>
+      <a href="#contacto"><span class="n">05</span><span class="t">Contacto</span></a>
+    </nav>
+    <div class="rail__meta mono">
+      <p>Región de Coquimbo, Chile</p>
+      <p><b>Disponible</b> para práctica</p>
+      <p><a href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener">github.com/samueleduardobuguenovega-lang</a></p>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" aria-labelledby="hero-t">
+      <p class="kicker mono">Apertura</p>
+      <h2 id="hero-t" class="rv">Escribo software que <em>ya está</em> en manos de gente.</h2>
+      <p class="hero__lead rv">Dos sitios en producción —uno de ellos para un local real en Ovalle—, una app Android de bodega con el APK publicado y un shooter cooperativo en Godot. Cada proyecto con sus pruebas, su documentación y su despliegue detrás.</p>
+      <div class="ledger rv" role="list">
+        <div role="listitem"><span class="num">02</span><span class="lbl">Sitios en producción</span></div>
+        <div role="listitem"><span class="num">01</span><span class="lbl">App Android publicada</span></div>
+        <div role="listitem"><span class="num">01</span><span class="lbl">Juego en desarrollo</span></div>
+        <div role="listitem"><span class="num">05</span><span class="lbl">Proyectos documentados</span></div>
+      </div>
+    </section>
+
+    <section id="trabajo" aria-labelledby="trabajo-t">
+      <p class="kicker mono"><span id="trabajo-t">01 — Trabajo</span></p>
+
+      <article class="case rv">
+        <div class="case__idx">01</div>
+        <div>
+          <div class="case__top">
+            <h3>Brújula <span>Orientación vocacional con el costo real de estudiar</span></h3>
+            <a class="case__link" href="https://brujula-coquimbo.web.app" target="_blank" rel="noopener">Sitio en vivo ↗</a>
+          </div>
+          <div class="case__body">
+            <p class="case__text"><strong>El problema.</strong> Un estudiante de 4° medio de la Región de Coquimbo decide con el arancel del folleto, que no incluye matrícula, títulos, movilización ni costo de vida. <strong>Lo que hice.</strong> El producto completo, solo: modelo de datos, cálculo de costo real por comuna con el desglose a la vista, comparación contra el promedio del área y del mismo nivel, y ficha por carrera. Si una comuna no tiene costo de vida conocido, se dice en vez de sumar cero.</p>
+            <div class="shots shots--phone">
+              <figure class="phone"><img src="assets/brujula-movil.webp" alt="Brújula: pantalla de inicio en un teléfono" width="390" height="844" loading="lazy"></figure>
+              <figure class="phone"><img src="assets/brujula-calc.webp" alt="Brújula: calculadora de costo real por carrera" width="390" height="844" loading="lazy"></figure>
+            </div>
+            <dl class="meta">
+              <div><dt>Rol</dt><dd>Producto completo, en solitario</dd></div>
+              <div><dt>Stack</dt><dd>SvelteKit 5<span class="sep">·</span>TypeScript<span class="sep">·</span>Firebase</dd></div>
+              <div><dt>Pruebas</dt><dd>Playwright<span class="sep">·</span>Vitest</dd></div>
+              <div><dt>Estado</dt><dd>En vivo · postulación municipal</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="case__idx">02</div>
+        <div>
+          <div class="case__top">
+            <h3>Los Ñeñecos <span>Menú digital y pedidos para un local real</span></h3>
+            <a class="case__link" href="https://nenekos-c1e77.web.app" target="_blank" rel="noopener">Sitio en vivo ↗</a>
+          </div>
+          <div class="case__body">
+            <p class="case__text"><strong>El problema.</strong> Comida al paso en Ovalle tomando pedidos por WhatsApp a mano, sin control de lo que se agota ni de lo que entra a cocina. <strong>Lo que hice.</strong> PWA con catálogo en vivo, carrito, checkout y panel de administración y cocina; el local la usa hoy, y el cliente ajustó el menú sin tocar código.</p>
+            <figure class="desktop"><img src="assets/nenecos-desktop.webp" alt="Los Ñeñecos: menú digital en escritorio" width="1280" height="900" loading="lazy"><figcaption>Menú público, escritorio</figcaption></figure>
+            <div class="shots shots--phone" style="max-width:300px">
+              <figure class="phone"><img src="assets/nenecos-movil.webp" alt="Los Ñeñecos: menú en teléfono" width="390" height="844" loading="lazy"></figure>
+            </div>
+            <dl class="meta">
+              <div><dt>Rol</dt><dd>Diseño y desarrollo, en solitario</dd></div>
+              <div><dt>Stack</dt><dd>SvelteKit 5<span class="sep">·</span>Tailwind 4<span class="sep">·</span>Firebase</dd></div>
+              <div><dt>Pruebas</dt><dd>Playwright<span class="sep">·</span>Vitest</dd></div>
+              <div><dt>Estado</dt><dd>En vivo · cliente real</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="case__idx">03</div>
+        <div>
+          <div class="case__top">
+            <h3>Creando Sabores <span>Plataforma de talleres gastronómicos</span></h3>
+            <a class="case__link" href="https://github.com/samueleduardobuguenovega-lang/creando-sabores" target="_blank" rel="noopener">Repositorio ↗</a>
+          </div>
+          <div class="case__body">
+            <p class="case__text"><strong>El problema.</strong> Talleres, recetas en PDF, documentos, videos y la ejecución real de cada taller, todo repartido en carpetas y correos. <strong>Lo que hice.</strong> Base del proyecto y esquema, usuarios con roles y auditoría de cada acción, panel principal y el módulo de talleres; además CI, despliegue y respaldo diario. Proyecto académico en equipo de tres, con mi parte separada en el documento de tareas.</p>
+            <div class="plate" role="img" aria-label="Módulos de la plataforma: autenticación con roles, talleres, recetas, documentos, videos y ejecuciones">
+              <div class="plate__head"><span>Creando Sabores</span><span>Express + PostgreSQL</span></div>
+              <ul>
+                <li><i>▸</i> usuarios · roles · auditoría de acciones</li>
+                <li><i>▸</i> talleres · estado planificado / en ejecución / finalizado</li>
+                <li><i>▸</i> recetas con código único y PDF reutilizable</li>
+                <li><i>▸</i> documentos y videos por taller</li>
+                <li><i>▸</i> ejecuciones: participantes, observaciones, evidencia</li>
+                <li><i>▸</i> CI · despliegue · respaldo diario</li>
+              </ul>
+            </div>
+            <dl class="meta">
+              <div><dt>Rol</dt><dd>Base, usuarios y auditoría, talleres, CI y despliegue</dd></div>
+              <div><dt>Stack</dt><dd>Express<span class="sep">·</span>PostgreSQL<span class="sep">·</span>Docker</dd></div>
+              <div><dt>Equipo</dt><dd>Tres personas, tareas separadas</dd></div>
+              <div><dt>Estado</dt><dd>Académico · entregado</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="case__idx">04</div>
+        <div>
+          <div class="case__top">
+            <h3>Sistema de Bodega <span>Control de stock en el teléfono, sin servidor</span></h3>
+            <a class="case__link" href="https://github.com/samueleduardobuguenovega-lang/SistemaBodegaAppAndroid/releases/latest" target="_blank" rel="noopener">APK ↗</a>
+          </div>
+          <div class="case__body">
+            <p class="case__text"><strong>El problema.</strong> Una bodega que se lleva en planillas y se descuadra cuando dos personas mueven el mismo producto. <strong>Lo que hice.</strong> App Android sobre SQLite: usuarios y roles con permisos, productos con SKU único, entradas y salidas con constancia documental, informe de stock, historial de movimientos y escaneo por código de barras. La entrega se publicó como release instalable.</p>
+            <div class="plate" role="img" aria-label="Entidades de la base local: usuarios, roles, categorías, productos, proveedores, movimientos e informe de stock">
+              <div class="plate__head"><span>Sistema de Bodega</span><span>Java + SQLite</span></div>
+              <ul>
+                <li><i>▸</i> usuarios · roles · permisos por operación</li>
+                <li><i>▸</i> productos · SKU único · categoría · proveedor</li>
+                <li><i>▸</i> movimientos de entrada y salida · constancia</li>
+                <li><i>▸</i> informe de stock · historial por producto</li>
+                <li><i>▸</i> escaneo por código de barras</li>
+              </ul>
+            </div>
+            <dl class="meta">
+              <div><dt>Rol</dt><dd>Aplicación completa, en solitario</dd></div>
+              <div><dt>Stack</dt><dd>Java<span class="sep">·</span>Android<span class="sep">·</span>SQLite<span class="sep">·</span>Gradle</dd></div>
+              <div><dt>Entrega</dt><dd>APK publicado como release</dd></div>
+              <div><dt>Estado</dt><dd>Académico · instalable</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="case__idx">05</div>
+        <div>
+          <div class="case__top">
+            <h3>Iron Tide <span>Shooter cooperativo de oleadas en Godot</span></h3>
+            <a class="case__link" href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener">Perfil ↗</a>
+          </div>
+          <div class="case__body">
+            <p class="case__text"><strong>El problema.</strong> Cuatro jugadores sosteniendo el mismo terreno contra oleadas, sin que la partida se desarme cuando la red se cae. <strong>Lo que hice.</strong> Diseño de oleadas, enemigos, sistemas de armas y la red cooperativa, más el documento de diseño y el de estado que dicen qué existe y qué no. <em style="color:var(--muted);font-style:normal">En desarrollo: se muestra como está, no como promesa.</em></p>
+            <figure class="desktop"><img src="assets/iron-tide.webp" alt="Iron Tide: render de la trinchera de noche" width="1600" height="900" loading="lazy"><figcaption>Render del mapa, trinchera nocturna</figcaption></figure>
+            <dl class="meta">
+              <div><dt>Rol</dt><dd>Diseño y programación, en solitario</dd></div>
+              <div><dt>Stack</dt><dd>Godot 4.7<span class="sep">·</span>GDScript</dd></div>
+              <div><dt>Documentación</dt><dd>Visión<span class="sep">·</span>Diseño<span class="sep">·</span>Estado</dd></div>
+              <div><dt>Estado</dt><dd>En desarrollo</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="stack" aria-labelledby="stack-t">
+      <p class="kicker mono"><span id="stack-t">02 — Herramientas</span></p>
+      <div class="grid3 rv">
+        <div class="stackcol">
+          <h4>Lo que uso a diario</h4>
+          <ul>
+            <li>TypeScript <span>web</span></li>
+            <li>Java <span>Android</span></li>
+            <li>Python <span>scripts</span></li>
+            <li>SvelteKit <span>web</span></li>
+            <li>SQL <span>datos</span></li>
+            <li>Git <span>todo</span></li>
+          </ul>
+        </div>
+        <div class="stackcol">
+          <h4>Lo que he puesto en producción</h4>
+          <ul>
+            <li>Firebase Hosting <span>deploy</span></li>
+            <li>PostgreSQL <span>datos</span></li>
+            <li>Docker <span>entorno</span></li>
+            <li>CI + respaldo <span>entrega</span></li>
+            <li>Playwright <span>pruebas</span></li>
+            <li>Vitest <span>pruebas</span></li>
+          </ul>
+        </div>
+        <div class="stackcol">
+          <h4>Aprendiendo ahora</h4>
+          <ul>
+            <li>Godot 4 <span>juego</span></li>
+            <li>GDScript <span>juego</span></li>
+            <li>Redes co-op <span>juego</span></li>
+            <li>Modelos locales <span>infra</span></li>
+            <li>Linux propio <span>infra</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo" aria-labelledby="metodo-t">
+      <p class="kicker mono"><span id="metodo-t">03 — Cómo trabajo</span></p>
+      <div class="principles">
+        <div class="principle rv">
+          <div>
+            <h4>La prueba antes del arreglo</h4>
+            <p>Cada regla del pedido tiene una prueba que falla primero y pasa después. Si un cambio toca un comando o una pantalla que ya existía, queda una prueba que confirma que lo anterior sigue igual.</p>
+          </div>
+        </div>
+        <div class="principle rv">
+          <div>
+            <h4>Medir antes de suponer</h4>
+            <p>Un certificado de 3,95 MB no bajaba comprimiendo imágenes: el 89 % del peso eran fuentes incrustadas. Se volvió a renderizar la página a 150 dpi y quedó en 235 KB, legible y con el QR y la firma intactos.</p>
+            <p class="quote">El diagnóstico por objeto, no la regla fija.</p>
+          </div>
+        </div>
+        <div class="principle rv">
+          <div>
+            <h4>Documentar el porqué</h4>
+            <p>Cada proyecto lleva un documento de tareas con criterios de aceptación, decisiones y lo que falta. Sirve para que otra persona —o yo en tres semanas— retome sin adivinar.</p>
+          </div>
+        </div>
+        <div class="principle rv">
+          <div>
+            <h4>Entregar, no anunciar</h4>
+            <p>Un proyecto está listo cuando la URL responde, el APK se instala y el respaldo se puede restaurar. Lo demás es borrador, y así se dice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formacion" aria-labelledby="formacion-t">
+      <p class="kicker mono"><span id="formacion-t">04 — Formación</span></p>
+      <div class="rows rv">
+        <div class="row">
+          <div class="row__when">En curso</div>
+          <div class="row__what"><strong>Analista Programador</strong><span>Desarrollo de aplicaciones web y móviles, bases de datos y seguridad.</span></div>
+        </div>
+        <div class="row">
+          <div class="row__when">Android · IEI-093</div>
+          <div class="row__what"><strong>Programación Android</strong><span>Dos entregas completas: gestión de bodega sobre SQLite y control de gastos con contraseñas cifradas por PBKDF2, permisos, notificaciones y mapas.</span></div>
+        </div>
+        <div class="row">
+          <div class="row__when">Por mi cuenta</div>
+          <div class="row__what"><strong>Infraestructura y juego</strong><span>Servidor propio con Linux, modelos de lenguaje locales sobre GPU, y Godot para el shooter cooperativo.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="contact" aria-labelledby="contacto-t">
+      <p class="kicker mono"><span id="contacto-t">05 — Contacto</span></p>
+      <h2 class="rv">¿Buscas a alguien que <em>entregue</em> y no solo que programe?</h2>
+      <div class="contact__links rv">
+        <a href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener"><span>GitHub</span><span>código y proyectos ↗</span></a>
+        <a href="https://brujula-coquimbo.web.app" target="_blank" rel="noopener"><span>Brújula</span><span>en vivo ↗</span></a>
+        <a href="https://nenekos-c1e77.web.app" target="_blank" rel="noopener"><span>Los Ñeñecos</span><span>en vivo ↗</span></a>
+      </div>
+      <p class="mono" style="margin-top:26px;color:var(--muted)">Región de Coquimbo, Chile · Disponible para práctica</p>
+    </section>
+
+    <footer class="mono">
+      <span>Samuel Bugueño Vega · 2026</span>
+      <span>Hecha a mano en HTML y CSS, sin frameworks</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = [...document.querySelectorAll('.rv')];
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        el.style.transitionDelay = Math.min(i * 70, 210) + 'ms';
+        el.classList.add('in');
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    items.forEach(el => io.observe(el));
+  }
+
+  // nav: marca la sección visible
+  const links = [...document.querySelectorAll('.rail__nav a')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => a.removeAttribute('aria-current'));
+      const active = links.find(a => a.getAttribute('href') === '#' + e.target.id);
+      if (active) active.setAttribute('aria-current', 'true');
+    });
+  }, { rootMargin: '-30% 0px -55% 0px' });
+  sections.forEach(s => spy.observe(s));
+})();
+</script>
+</body>
+</html>
