@@ -72,3 +72,9 @@ hero solo en la apertura.
 - S3 Dejar el comando de re-despliegue escrito en el README.
 
 ## Log
+
+- **2026-11-20** — T1–T8 primera pasada hecha: página construida, verificada a 390×844 y 1440×900
+  (sin overflow, fuentes e imágenes cargando), publicada en GitHub Pages.
+  URL: https://samueleduardobuguenovega-lang.github.io/ (HTTP 200).
+  Repo: `samueleduardobuguenovega-lang.github.io` (público, solo el sitio). Commit `30360f4`, luego `7cc3726`.
+  Pendiente: correo y LinkedIn en el CTA, institución de la carrera, CV en PDF si lo quiere.
