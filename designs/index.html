@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>10 direcciones de diseño — Samuel Bugueño Vega</title>
+<style>
+@font-face{font-family:"Bric";src:url("../assets/fonts/bricolage.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Mono";src:url("../assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-display:swap}
+@font-face{font-family:"ISans";src:url("../assets/fonts/isans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{--bg:#0A0810;--panel:#12101A;--line:#241F33;--ink:#F2EEF9;--dim:#958BA8;--violet:#A98BFF;--sans:"ISans",system-ui,sans-serif;--display:"Bric",system-ui,sans-serif;--mono:"Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;padding-bottom:88px}
+a{color:inherit;text-decoration:none}
+.shell{max-width:1180px;margin:0 auto;padding:0 22px}
+header{padding:40px 0 26px;border-bottom:1px solid var(--line)}
+h1{font-family:var(--display);font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;line-height:1.04;margin:0}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin-bottom:12px}
+header p{color:var(--dim);max-width:62ch;margin:14px 0 0}
+.how{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.how span{border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:28px 0 10px}
+.card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column;transition:border-color .18s,transform .18s}
+.card:hover{border-color:#3B3352;transform:translateY(-2px)}
+.card.picked{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset}
+.card .top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.card .id{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--violet)}
+.pick{border:1px solid var(--line);background:none;color:var(--dim);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;border-radius:6px;cursor:pointer}
+.pick[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#12081F;font-weight:600}
+.prev{aspect-ratio:16/10;position:relative;overflow:hidden;background:#0E0B15;padding:14px;display:block}
+.prev i{position:absolute;display:block;border-radius:3px}
+.body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.body h2{font-family:var(--display);font-size:19px;letter-spacing:-.01em;margin:0}
+.body p{margin:0;color:var(--dim);font-size:14px;line-height:1.5}
+.body .go{margin-top:auto;padding-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--violet);letter-spacing:.06em}
+/* mini sketches */
+.prev.s1{background:#0B0910}
+.prev.s1 i:nth-child(1){left:14px;top:14px;bottom:14px;width:22%;background:#171226}
+.prev.s1 i:nth-child(2){left:44%;top:26%;width:40%;height:14%;background:#B388FF}
+.prev.s1 i:nth-child(3){left:44%;top:46%;width:30%;height:5%;background:#3A3150}
+.prev.s1 i:nth-child(4){left:44%;top:58%;width:44%;height:5%;background:#2A2438}
+.prev.s1 i:nth-child(5){left:44%;top:72%;width:36%;height:5%;background:#2A2438}
+.prev.s2{background:#F7F6FB}
+.prev.s2 i:nth-child(1){left:14px;top:12px;right:14px;height:8%;background:#fff;border:1px solid #E7E4F0}
+.prev.s2 i:nth-child(2){left:14px;top:28%;width:44%;height:12%;background:#171325}
+.prev.s2 i:nth-child(3){left:14px;top:44%;width:36%;height:5%;background:#C9C3DB}
+.prev.s2 i:nth-child(4){right:14px;top:26%;width:36%;height:40%;background:#E9E3FF;border-radius:10px}
+.prev.s2 i:nth-child(5){left:14px;bottom:14px;width:28%;height:14%;background:#6C43F5;border-radius:8px}
+.prev.s3{background:radial-gradient(120% 90% at 80% 0%,#2A1B4A,#0D0A16)}
+.prev.s3 i:nth-child(1){left:14px;top:14px;width:46%;height:30%;background:#1F1733;border:1px solid #332A4C;border-radius:8px}
+.prev.s3 i:nth-child(2){right:14px;top:14px;width:32%;height:30%;background:#1F1733;border:1px solid #332A4C;border-radius:8px}
+.prev.s3 i:nth-child(3){left:14px;bottom:14px;width:46%;height:34%;background:#1F1733;border:1px solid #A97BFF;border-radius:8px}
+.prev.s3 i:nth-child(4){right:14px;bottom:14px;width:32%;height:34%;background:#1F1733;border:1px solid #332A4C;border-radius:8px}
+.prev.s3 i:nth-child(5){left:14px;top:20px;width:20%;height:6px;background:#FFC46B}
+.prev.s4{background:#0E0C14}
+.prev.s4 i:nth-child(1){left:0;top:0;bottom:0;width:34%;background:#16131F;border-right:1px solid #221D2E}
+.prev.s4 i:nth-child(2){left:6%;top:18%;width:22%;height:4px;background:#7DE3A4}
+.prev.s4 i:nth-child(3){left:6%;top:28%;width:18%;height:4px;background:#4B4360}
+.prev.s4 i:nth-child(4){left:6%;top:38%;width:20%;height:4px;background:#4B4360}
+.prev.s4 i:nth-child(5){left:42%;top:20%;width:46%;height:8%;background:#C4A7FF}
+.prev.s4 i:nth-child(6){left:42%;top:36%;width:38%;height:4px;background:#332C45}
+.prev.s4 i:nth-child(7){left:42%;top:46%;width:44%;height:4px;background:#332C45}
+.prev.s4 i:nth-child(8){left:42%;top:56%;width:34%;height:4px;background:#332C45}
+.prev.s5{background:#F5F0F7}
+.prev.s5 i:nth-child(1){left:14px;top:14px;width:60%;height:16%;background:#2A1236}
+.prev.s5 i:nth-child(2){left:14px;top:40%;right:14px;height:2px;background:#4B1E63}
+.prev.s5 i:nth-child(3){left:14px;top:50%;right:40%;height:5%;background:#D6C8DE}
+.prev.s5 i:nth-child(4){left:14px;top:62%;right:30%;height:5%;background:#D6C8DE}
+.prev.s5 i:nth-child(5){left:14px;bottom:14px;width:12%;height:26%;background:#4B1E63}
+.prev.s5 i:nth-child(6){left:32%;bottom:14px;width:12%;height:20%;background:#7B2FA8}
+.prev.s5 i:nth-child(7){left:50%;bottom:14px;width:12%;height:24%;background:#3C1850}
+.prev.s6{background:#0C0A12}
+.prev.s6 i:nth-child(1){left:0;top:0;bottom:0;width:22%;background:#100D17;border-right:1px solid #241E33}
+.prev.s6 i:nth-child(2){left:26%;top:14px;width:22%;height:16%;background:#15111F;border:1px solid #241E33;border-radius:6px}
+.prev.s6 i:nth-child(3){left:51%;top:14px;width:22%;height:16%;background:#15111F;border:1px solid #241E33;border-radius:6px}
+.prev.s6 i:nth-child(4){left:26%;top:36%;right:14px;height:20%;background:#15111F;border:1px solid #241E33;border-radius:6px}
+.prev.s6 i:nth-child(5){left:26%;top:62%;right:14px;height:6%;background:#1C1728;border-radius:4px}
+.prev.s6 i:nth-child(6){left:26%;top:72%;right:14px;height:6%;background:#1C1728;border-radius:4px}
+.prev.s7{background:#fff}
+.prev.s7 i:nth-child(1){left:14px;top:16px;width:70%;height:22%;background:#0A0A0A}
+.prev.s7 i:nth-child(2){left:14px;top:56%;width:34%;height:4px;background:#6E6E73}
+.prev.s7 i:nth-child(3){left:14px;top:66%;right:14px;height:4px;background:#E2E2E5}
+.prev.s7 i:nth-child(4){left:14px;top:74%;right:14px;height:4px;background:#E2E2E5}
+.prev.s7 i:nth-child(5){left:14px;top:82%;right:14px;height:4px;background:#E2E2E5}
+.prev.s8{background:linear-gradient(160deg,#4A1767,#120A24)}
+.prev.s8 i:nth-child(1){left:14px;top:18%;width:64%;height:14%;background:#F6F0FF}
+.prev.s8 i:nth-child(2){left:14px;top:40%;width:44%;height:4px;background:#B9A6D6}
+.prev.s8 i:nth-child(3){left:14px;top:50%;width:36%;height:4px;background:#B9A6D6}
+.prev.s8 i:nth-child(4){left:14px;bottom:14px;width:26%;height:16%;background:#D9B8FF;border-radius:999px}
+.prev.s8 i:nth-child(5){left:46%;bottom:16px;width:8px;height:8px;border-radius:50%;background:#D9B8FF}
+.prev.s8 i:nth-child(6){left:52%;bottom:16px;width:8px;height:8px;border-radius:50%;background:#6B5A85}
+.prev.s9{background:#F8F3E7}
+.prev.s9 i:nth-child(1){left:14px;top:14px;width:30%;height:8%;background:#5B21B6}
+.prev.s9 i:nth-child(2){left:14px;top:28%;width:66%;height:16%;background:#111014}
+.prev.s9 i:nth-child(3){left:14px;top:50%;right:14px;height:16%;background:#fff;border:2px solid #111014;box-shadow:3px 3px 0 #111014}
+.prev.s9 i:nth-child(4){left:14px;top:71%;right:14px;height:16%;background:#fff;border:2px solid #111014;box-shadow:3px 3px 0 #111014}
+.prev.s10{background:radial-gradient(60% 60% at 70% 10%,#4B2A8C,#07050C 70%)}
+.prev.s10 i:nth-child(1){left:14px;top:26%;width:72%;height:16%;background:#F5F1FF}
+.prev.s10 i:nth-child(2){left:14px;top:46%;width:40%;height:16%;background:#A98BFF}
+.prev.s10 i:nth-child(3){left:14px;bottom:18%;width:30%;height:4px;background:#9E93B8}
+.prev.s10 i:nth-child(4){left:14px;bottom:10%;width:22%;height:11%;background:#F5F1FF;border-radius:999px}
+.prev.s10 i:nth-child(5){right:14px;bottom:12%;width:26%;height:26%;background:#150E28;border:1px solid #2A2140;border-radius:8px}
+/* sticky */
+.picked-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(10,8,16,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 0;z-index:9}
+.picked-bar .shell{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.picked-bar .txt{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.05em}
+.picked-bar .txt b{color:var(--ink)}
+.copy{background:var(--violet);color:#12081F;border:0;padding:11px 16px;border-radius:9px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+footer{padding:30px 0 20px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+@media(max-width:760px){
+  .grid{grid-template-columns:1fr;gap:16px}
+  .picked-bar .txt{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="kicker">Portafolio · ronda de diseño</div>
+    <h1>Diez direcciones. Elegí y mezclá.</h1>
+    <p>Todas usan el mismo contenido (tus cinco casos y el bloque de agentes de IA) y todas funcionan en el teléfono. Lo que cambia es la estructura, la tipografía y el tono. Abrí las que te gusten, marcá las que sirvan y decime los números.</p>
+    <div class="how"><span>1 · abrí cada una</span><span>2 · marcá tus favoritas</span><span>3 · mezclamos dos o tres</span></div>
+  </header>
+
+  <div class="grid" id="grid">
+    <article class="card" data-id="1">
+      <div class="top"><span class="id">01</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s1" href="01.html" aria-label="Ver diseño 01"><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Editorial oscuro</h2><p>Rail fijo, serif enorme, casos en filas con captura. Serio, nocturno, tono de revista.</p><a class="go" href="01.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="2">
+      <div class="top"><span class="id">02</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s2" href="02.html" aria-label="Ver diseño 02"><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Producto claro</h2><p>Estilo SaaS: fondo claro, tarjetas redondeadas, nav pegajosa y un CTA visible siempre. Lo más fácil de leer y lo más "contratable".</p><a class="go" href="02.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="3">
+      <div class="top"><span class="id">03</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s3" href="03.html" aria-label="Ver diseño 03"><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Mazo de cartas</h2><p>Cada proyecto como carta coleccionable con rareza y stats, y una ficha de jugador. Tu lado gamer, sin disfrazarlo.</p><a class="go" href="03.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="4">
+      <div class="top"><span class="id">04</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s4" href="04.html" aria-label="Ver diseño 04"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Terminal</h2><p>Terminal fija a la izquierda y contenido a la derecha. Habla el idioma de la persona técnica que va a evaluarte.</p><a class="go" href="04.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="5">
+      <div class="top"><span class="id">05</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s5" href="05.html" aria-label="Ver diseño 05"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Biblioteca</h2><p>Índice de obra con estante de libros, papel violeta y sello de luna. El que más se parece a vos por el lado de la bruja bibliotecaria.</p><a class="go" href="05.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="6">
+      <div class="top"><span class="id">06</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s6" href="06.html" aria-label="Ver diseño 06"><i></i><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Panel</h2><p>Se lee como un dashboard: métricas arriba, proyectos en tabla, estado de cada uno. Comunica orden y control.</p><a class="go" href="06.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="7">
+      <div class="top"><span class="id">07</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s7" href="07.html" aria-label="Ver diseño 07"><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Suizo</h2><p>Blanco, retícula estricta y tipografía gigante. Lo más sobrio y lo que menos se parece a una plantilla.</p><a class="go" href="07.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="8">
+      <div class="top"><span class="id">08</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s8" href="08.html" aria-label="Ver diseño 08"><i></i><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Paneles</h2><p>Pantalla completa por panel, se desliza de lado con el dedo. Es el más "videojuego" de los diez.</p><a class="go" href="08.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="9">
+      <div class="top"><span class="id">09</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s9" href="09.html" aria-label="Ver diseño 09"><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Brutalista</h2><p>Bordes gruesos, sombras duras, etiquetas pegadas. Ruidoso a propósito: nadie lo confunde con una plantilla.</p><a class="go" href="09.html">Abrir →</a></div>
+    </article>
+
+    <article class="card" data-id="10">
+      <div class="top"><span class="id">10</span><button class="pick" type="button" aria-pressed="false">elegir</button></div>
+      <a class="prev s10" href="10.html" aria-label="Ver diseño 10"><i></i><i></i><i></i><i></i><i></i></a>
+      <div class="body"><h2>Cinemático</h2><p>Portada a pantalla completa con luz, y los casos apareciendo al hacer scroll. Lo más impresionante al abrirlo.</p><a class="go" href="10.html">Abrir →</a></div>
+    </article>
+  </div>
+
+  <footer>Samuel Bugueño Vega · ronda de diseño · 10 direcciones</footer>
+</div>
+
+<div class="picked-bar">
+  <div class="shell">
+    <span class="txt" id="picked">Ninguna elegida todavía</span>
+    <button class="copy" id="copy" type="button">Copiar elección</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var picks=new Set(), out=document.getElementById('picked'), btn=document.getElementById('copy');
+  function render(){
+    var arr=[].slice.call(picks).sort(function(a,b){return a-b});
+    out.innerHTML = arr.length ? 'Elegidas: <b>'+arr.join(' · ')+'</b>' : 'Ninguna elegida todavía';
+    document.querySelectorAll('.card').forEach(function(c){
+      var on=picks.has(+c.dataset.id);
+      c.classList.toggle('picked',on);
+      var b=c.querySelector('.pick');
+      b.setAttribute('aria-pressed',on?'true':'false');
+      b.textContent=on?'elegida':'elegir';
+    });
+  }
+  document.querySelectorAll('.pick').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.preventDefault();
+      var id=+b.closest('.card').dataset.id;
+      if(picks.has(id)){picks.delete(id)}else{picks.add(id)}
+      render();
+    });
+  });
+  btn.addEventListener('click',function(){
+    var arr=[].slice.call(picks).sort(function(a,b){return a-b});
+    var txt=arr.length?('Elegí: '+arr.join(', ')):'Todavía no elegí ninguna.';
+    navigator.clipboard.writeText(txt).then(function(){btn.textContent='Copiado';setTimeout(function(){btn.textContent='Copiar elección'},1600);},
+      function(){btn.textContent='Copiá a mano: '+txt;});
+  });
+  render();
+})();
+</script>
+</body>
+</html>

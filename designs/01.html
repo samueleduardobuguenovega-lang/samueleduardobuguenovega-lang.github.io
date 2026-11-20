@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>01 · Editorial oscuro — Samuel Bugueño Vega</title>
+<style>
+@font-face{font-family:"ISerif";src:url("../assets/fonts/iserif.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"ISerif";src:url("../assets/fonts/iserif-italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"ISans";src:url("../assets/fonts/isans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Mono";src:url("../assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-display:swap}
+:root{
+  --bg:#0B0910; --ink:#F2EDF8; --dim:#9C93AE; --line:#241E33;
+  --accent:#B388FF; --accent-deep:#6D3BE8;
+  --serif:"ISerif",Georgia,serif; --sans:"ISans",system-ui,sans-serif; --mono:"Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.05vw,18px);line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{display:grid;grid-template-columns:280px minmax(0,1fr);max-width:1360px;margin:0 auto;padding:0 24px}
+/* rail */
+.rail{position:sticky;top:0;align-self:start;height:100vh;padding:40px 28px 40px 0;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line)}
+.rail .mark{font-family:var(--serif);font-size:26px;line-height:1.1}
+.rail .mark em{font-style:italic;color:var(--accent)}
+.rail .role{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:10px}
+.rail nav{margin-top:38px;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--dim)}
+.rail nav a{transition:color .18s}
+.rail nav a:hover,.rail nav a:focus-visible{color:var(--accent)}
+.status{font-family:var(--mono);font-size:11.5px;color:var(--dim);line-height:1.7}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:7px;vertical-align:middle}
+/* main */
+main{padding:40px 0 120px}
+.hero{min-height:62vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:48px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7.2vw,104px);line-height:.95;letter-spacing:-.02em;margin:22px 0 0}
+h1 em{font-style:italic;color:var(--accent)}
+.lead{max-width:52ch;margin:26px 0 0;color:#C9C1DA;font-size:clamp(16px,1.25vw,19px)}
+/* cases */
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:34px}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3vw,38px);margin:0}
+.sec-head span{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.case{display:grid;grid-template-columns:64px minmax(0,1fr) 320px;gap:28px;padding:30px 0;border-top:1px solid var(--line);align-items:start}
+.case:first-of-type{border-top:0}
+.num{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:6px}
+.case h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.4vw,30px);margin:0 0 8px}
+.case p{margin:0;color:var(--dim);max-width:46ch;font-size:15.5px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#C9C1DA;border:1px solid var(--line);border-radius:999px;padding:4px 9px}
+.shot{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#141020}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.link{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--accent);border-bottom:1px solid transparent}
+.link:hover{border-color:var(--accent)}
+/* agents + contact */
+.agents p{max-width:62ch;color:#C9C1DA;margin:0}
+.facts{display:flex;gap:44px;flex-wrap:wrap;margin-top:34px}
+.fact strong{display:block;font-family:var(--serif);font-size:40px;line-height:1;color:var(--accent)}
+.fact span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.contact{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px}
+.btn{display:inline-block;padding:13px 22px;border-radius:2px;background:var(--accent);color:#120A1F;font-weight:600;font-size:15px}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+footer{padding-top:32px;font-family:var(--mono);font-size:11.5px;color:var(--dim);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr;padding:0 20px}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:28px 0}
+  .rail nav{flex-direction:row;flex-wrap:wrap;gap:16px;margin-top:20px}
+  .hero{min-height:auto;padding:36px 0 40px}
+  .case{grid-template-columns:1fr;gap:16px}
+  .num{display:none}
+  .shot{order:-1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="rail">
+    <div>
+      <div class="mark">Samuel<br><em>Bugueño</em> Vega</div>
+      <div class="role">Desarrollador de software</div>
+      <nav aria-label="Secciones">
+        <a href="#trabajo">Trabajo</a>
+        <a href="#agentes">Agentes de IA</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+    <div class="status"><span class="dot"></span>Disponible para trabajo remoto<br>Coquimbo, Chile</div>
+  </aside>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Portafolio · 2026</div>
+      <h1>Software que está<br><em>en producción</em>,<br>no en una demo.</h1>
+      <p class="lead">Construyo aplicaciones web, móviles y juegos que hoy usan personas reales: una plataforma de orientación vocacional en colegios, un catálogo con pedidos, una app de bodega y un juego en Godot.</p>
+    </header>
+
+    <section id="trabajo">
+      <div class="sec-head"><h2>Trabajo</h2><span>5 casos</span></div>
+
+      <article class="case">
+        <div class="num">01</div>
+        <div>
+          <h3>Decide tu carrera</h3>
+          <p>Plataforma de orientación vocacional: test, cálculo de puntajes y comparación de carreras. En producción y usada en colegios de la región.</p>
+          <div class="meta"><span class="chip">SvelteKit 5</span><span class="chip">TypeScript</span><span class="chip">Firebase</span></div>
+          <a class="link" href="https://decidetucarrera.web.app" target="_blank" rel="noopener">decidetucarrera.web.app →</a>
+        </div>
+        <div class="shot"><img src="../assets/brujula-movil.webp" alt="Decide tu carrera en un teléfono" width="320" height="200" loading="lazy"></div>
+      </article>
+
+      <article class="case">
+        <div class="num">02</div>
+        <div>
+          <h3>Creando Sabores</h3>
+          <p>Plataforma de talleres culinarios con tres roles: docentes que publican recetas y material, administración que revisa, y público que consulta sin cuenta.</p>
+          <div class="meta"><span class="chip">SvelteKit</span><span class="chip">PostgreSQL</span><span class="chip">Roles</span></div>
+        </div>
+        <div class="shot"><img src="../assets/creando-sabores.webp" alt="Creando Sabores: archivo de talleres" width="320" height="200" loading="lazy"></div>
+      </article>
+
+      <article class="case">
+        <div class="num">03</div>
+        <div>
+          <h3>Los Ñeñecos</h3>
+          <p>Menú digital con carrito y pedidos por WhatsApp para un local de comida al paso en Ovalle. Cliente real, uso diario.</p>
+          <div class="meta"><span class="chip">Web app</span><span class="chip">Cliente real</span></div>
+          <a class="link" href="https://nenekos-c1e77.web.app" target="_blank" rel="noopener">nenekos-c1e77.web.app →</a>
+        </div>
+        <div class="shot"><img src="../assets/nenecos-movil.webp" alt="Menú de Los Ñeñecos en el teléfono" width="320" height="200" loading="lazy"></div>
+      </article>
+
+      <article class="case" style="grid-template-columns:64px minmax(0,1fr)">
+        <div class="num">04</div>
+        <div>
+          <h3>Sistema de bodega</h3>
+          <p>App Android nativa para inventario y movimientos de stock, con base local y operación sin conexión. Pantallas de escritorio y móvil, sin captura pública todavía.</p>
+          <div class="meta"><span class="chip">Java</span><span class="chip">SQLite</span><span class="chip">Gradle</span></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="num">05</div>
+        <div>
+          <h3>Iron Tide</h3>
+          <p>Juego 3D en Godot: oleadas enemigas, armas y feedback de impacto. En desarrollo, con mira puesta en itch.io y Steam.</p>
+          <div class="meta"><span class="chip">Godot 4</span><span class="chip">GDScript</span><span class="chip">3D</span></div>
+        </div>
+        <div class="shot"><img src="../assets/iron-tide.webp" alt="Escena 3D de Iron Tide" width="320" height="200" loading="lazy"></div>
+      </article>
+    </section>
+
+    <section id="agentes" class="agents">
+      <div class="sec-head"><h2>Agentes de IA</h2><span>Resultados</span></div>
+      <p>Todos estos productos los construí trabajando con agentes de IA: les doy el problema, el criterio de calidad y la verificación, y ellos ejecutan. Lo que entrego es el resultado medido, no el proceso.</p>
+      <div class="facts">
+        <div class="fact"><strong>5</strong><span>productos en producción</span></div>
+        <div class="fact"><strong>3</strong><span>plataformas: web, Android, Godot</span></div>
+        <div class="fact"><strong>100%</strong><span>remoto</span></div>
+      </div>
+    </section>
+
+    <section id="contacto" style="border-bottom:0">
+      <div class="sec-head"><h2>Contacto</h2><span>Respuesta el mismo día</span></div>
+      <p style="color:#C9C1DA;max-width:52ch;margin:0">Disponible para trabajo remoto, prácticas y proyectos freelance. Escríbeme con el problema y te respondo con un plan concreto.</p>
+      <div class="contact">
+        <a class="btn" href="mailto:">Escríbeme</a>
+        <a class="btn ghost" href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <footer><span>Samuel Bugueño Vega · 2026</span><span>Diseño 01 · Editorial oscuro</span></footer>
+    </section>
+  </main>
+</div>
+</body>
+</html>

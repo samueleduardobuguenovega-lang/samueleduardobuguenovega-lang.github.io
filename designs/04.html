@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>04 · Terminal — Samuel Bugueño Vega</title>
+<style>
+@font-face{font-family:"Mono";src:url("../assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-display:swap}
+@font-face{font-family:"ISans";src:url("../assets/fonts/isans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{
+  --bg:#08070C; --term:#0E0C14; --line:#221D2E; --ink:#E8E4F1; --dim:#8E85A3;
+  --violet:#C4A7FF; --green:#7DE3A4; --amber:#F2C879;
+  --mono:"Mono",ui-monospace,monospace; --sans:"ISans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:15px;line-height:1.65}
+a{color:var(--violet);text-decoration:none}
+.shell{display:grid;grid-template-columns:400px minmax(0,1fr);min-height:100vh;max-width:1400px;margin:0 auto}
+/* terminal */
+.term{position:sticky;top:0;height:100vh;background:var(--term);border-right:1px solid var(--line);padding:22px 20px;overflow:auto}
+.term .bar{display:flex;gap:6px;margin-bottom:16px}
+.term .bar i{width:9px;height:9px;border-radius:50%;background:#3A3350;display:block}
+.term .bar i:first-child{background:#5B4A7A}
+.term .path{font-size:12px;color:var(--dim);margin-bottom:14px}
+.prompt{color:var(--green)}
+.cmd{color:var(--ink)}
+.out{color:var(--dim);font-size:13px;margin:4px 0 16px;padding-left:2px}
+.out b{color:var(--violet);font-weight:500}
+.tree{font-size:13px;color:var(--dim);margin:0 0 18px;padding:0;list-style:none}
+.tree li{padding:2px 0}
+.tree li::before{content:"├─ ";color:#3A3350}
+.tree li:last-child::before{content:"└─ "}
+.term .who{position:absolute;bottom:18px;left:20px;right:20px;font-size:12px;color:var(--dim);border-top:1px solid var(--line);padding-top:12px}
+.term .who strong{color:var(--ink);font-weight:500;display:block;margin-bottom:4px}
+/* content */
+main{padding:0 40px 90px}
+.block{padding:52px 0;border-bottom:1px dashed var(--line)}
+.block:last-child{border-bottom:0}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(30px,3.6vw,46px);line-height:1.12;letter-spacing:-.02em;margin:0}
+h1 code{font-family:var(--mono);color:var(--violet);font-size:.88em;font-weight:400}
+.say{color:var(--dim);max-width:60ch;margin:16px 0 0;font-family:var(--sans);font-size:17.5px;line-height:1.6}
+h2{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 20px;font-weight:500}
+.entry{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:16px 0;border-top:1px solid var(--line)}
+.entry:first-of-type{border-top:0}
+.entry .key{font-size:12px;color:var(--dim)}
+.entry h3{font-family:var(--sans);font-size:18px;margin:0 0 6px;font-weight:650;letter-spacing:-.01em}
+.entry p{margin:0;color:var(--dim);font-size:14.5px;max-width:58ch}
+.entry .stack{font-size:12px;color:#6E6583;margin-top:8px}
+.entry .stack span::after{content:" · "}
+.entry .stack span:last-child::after{content:""}
+.log{background:var(--term);border:1px solid var(--line);border-radius:6px;padding:16px 18px;font-size:13px;color:var(--dim);margin-top:6px}
+.log .ok{color:var(--green)}
+.log .k{color:var(--violet)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.btn{border:1px solid var(--violet);color:var(--violet);padding:11px 18px;border-radius:4px;font-size:13px}
+.btn.solid{background:var(--violet);color:#0B0714;border-color:var(--violet)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .term{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding-bottom:56px}
+  .term .who{position:static;margin-top:18px}
+  main{padding:0 20px 70px}
+  .block{padding:38px 0}
+  .entry{grid-template-columns:1fr;gap:6px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="term" aria-label="Terminal">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="path">samuel@coquimbo ~/portafolio</div>
+
+    <div><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+    <div class="out"><b>Samuel Bugueño Vega</b><br>Desarrollador de software · Coquimbo, CL</div>
+
+    <div><span class="prompt">$</span> <span class="cmd">ls trabajo/</span></div>
+    <ul class="tree">
+      <li>decide-tu-carrera/</li>
+      <li>creando-sabores/</li>
+      <li>los-nenecos/</li>
+      <li>sistema-bodega/</li>
+      <li>iron-tide/</li>
+    </ul>
+
+    <div><span class="prompt">$</span> <span class="cmd">cat estado.txt</span></div>
+    <div class="out"><span class="ok">●</span> disponible para trabajo remoto<br>respuesta el mismo día</div>
+
+    <div class="who"><strong>Samuel Bugueño Vega</strong>Disponible · remoto · español</div>
+  </aside>
+
+  <main>
+    <section class="block">
+      <h1>Construyo software que corre <code>en producción</code>, con agentes de IA como equipo.</h1>
+      <p class="say">Plataformas web, apps Android y juegos. Cinco productos que hoy usan personas reales: colegios, un local de comida, una bodega.</p>
+    </section>
+
+    <section class="block">
+      <h2>// trabajo</h2>
+
+      <article class="entry">
+        <div class="key">01 / 2026</div>
+        <div>
+          <h3>Decide tu carrera</h3>
+          <p>Orientación vocacional completa: test, cálculo de puntajes y comparación de carreras. Publicada y usada en colegios de la región.</p>
+          <div class="stack"><span>SvelteKit 5</span><span>TypeScript</span><span>Firebase</span></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="key">02 / 2026</div>
+        <div>
+          <h3>Creando Sabores</h3>
+          <p>Talleres culinarios con tres roles: docentes publican recetas y material, administración revisa, público consulta sin cuenta. PDF, video y ejecuciones.</p>
+          <div class="stack"><span>SvelteKit</span><span>PostgreSQL</span><span>Auth por rol</span></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="key">03 / 2026</div>
+        <div>
+          <h3>Los Ñeñecos</h3>
+          <p>Menú digital con carrito y pedidos por WhatsApp para un local de comida al paso en Ovalle. Uso diario del cliente.</p>
+          <div class="stack"><span>Web app</span><span>WhatsApp</span></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="key">04 / 2025</div>
+        <div>
+          <h3>Sistema de bodega</h3>
+          <p>App Android nativa de inventario y movimientos, con base local para operar sin conexión.</p>
+          <div class="stack"><span>Java</span><span>SQLite</span><span>Gradle</span></div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="key">05 / en curso</div>
+        <div>
+          <h3>Iron Tide</h3>
+          <p>Juego 3D con oleadas, armas y feedback de impacto. Construido para publicarse en itch.io y Steam.</p>
+          <div class="stack"><span>Godot 4</span><span>GDScript</span><span>3D</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="block">
+      <h2>// agentes de IA</h2>
+      <p class="say">Cada uno de esos productos lo construí trabajando con agentes de IA. Yo pongo el problema, el criterio de calidad y la verificación; ellos ejecutan a velocidad. Lo que entrego es el resultado, no el proceso.</p>
+      <div class="log">
+<span class="ok">✓</span> 5 productos publicados &nbsp;·&nbsp; <span class="ok">✓</span> 3 plataformas &nbsp;·&nbsp; <span class="ok">✓</span> 100% remoto<br>
+<span class="k">nota</span> el método de trabajo es mío y no se publica. El resultado, sí.
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>// contacto</h2>
+      <p class="say">Disponible para trabajo remoto, práctica y proyectos freelance. Cuéntame el problema; respondo con plan y alcance.</p>
+      <div class="cta">
+        <a class="btn solid" href="mailto:">escribir &gt; correo</a>
+        <a class="btn" href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener">github &gt; perfil</a>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

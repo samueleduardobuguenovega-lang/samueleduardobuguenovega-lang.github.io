@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>07 · Suizo — Samuel Bugueño Vega</title>
+<style>
+@font-face{font-family:"Bric";src:url("../assets/fonts/bricolage.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Mono";src:url("../assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-display:swap}
+:root{
+  --paper:#FFFFFF; --ink:#0A0A0A; --dim:#6E6E73; --line:#E2E2E5; --violet:#4B21C9;
+  --sans:"Bric",Helvetica,Arial,sans-serif; --mono:"Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;letter-spacing:-.005em}
+a{color:inherit;text-decoration:none}
+.shell{max-width:1240px;margin:0 auto;padding:0 28px}
+/* top */
+header{border-bottom:2px solid var(--ink);padding:16px 0}
+.hd{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:baseline;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.hd .n{grid-column:span 4;font-family:var(--sans);font-size:16px;font-weight:700;letter-spacing:-.01em;text-transform:none}
+.hd .a{grid-column:span 3;color:var(--dim)}
+.hd .b{grid-column:span 3;color:var(--dim)}
+.hd .c{grid-column:span 2;text-align:right;color:var(--violet)}
+/* hero */
+.hero{padding:64px 0 40px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.hero .kicker{grid-column:1/span 12;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+h1{grid-column:1/span 10;font-weight:700;font-size:clamp(46px,9vw,124px);line-height:.88;letter-spacing:-.045em;margin:0}
+h1 sup{font-size:.22em;vertical-align:super;letter-spacing:0;color:var(--violet);font-family:var(--mono);font-weight:400}
+.hero .lead{grid-column:1/span 5;margin:30px 0 0;font-size:18.5px;line-height:1.45;color:#232326}
+.hero .facts{grid-column:9/span 4;margin-top:30px;font-family:var(--mono);font-size:12px;color:var(--dim);line-height:2}
+.hero .facts b{color:var(--ink);font-weight:500}
+/* work */
+.work{padding:36px 0 0}
+.rule{height:2px;background:var(--ink);margin-bottom:14px}
+.wlabel{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:26px}
+.items{display:grid;grid-template-columns:repeat(12,1fr);gap:0 16px}
+.item{grid-column:1/span 12;display:grid;grid-template-columns:subgrid;align-items:baseline;padding:22px 0;border-top:1px solid var(--line);column-gap:16px}
+.item:first-of-type{border-top:2px solid var(--ink)}
+.item .num{grid-column:1/span 1;font-family:var(--mono);font-size:12px;color:var(--violet)}
+.item .title{grid-column:2/span 4;font-size:clamp(22px,3vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.item .desc{grid-column:6/span 4;color:var(--dim);font-size:15.5px;line-height:1.5}
+.item .tech{grid-column:10/span 2;font-family:var(--mono);font-size:11.5px;line-height:1.8;text-transform:uppercase;letter-spacing:.04em;color:#3A3A3D}
+.item .go{grid-column:12/span 1;text-align:right;font-family:var(--mono);font-size:12px;color:var(--violet)}
+.item:hover .title{color:var(--violet)}
+/* statement */
+.statement{padding:60px 0 20px;display:grid;grid-template-columns:repeat(12,1fr);gap:16px;border-top:2px solid var(--ink);margin-top:50px}
+.statement h2{grid-column:1/span 7;font-size:clamp(26px,3.6vw,44px);font-weight:700;letter-spacing:-.035em;line-height:1.05;margin:0}
+.statement p{grid-column:9/span 4;margin:6px 0 0;color:#2A2A2E;font-size:16px}
+.statement p b{font-weight:700}
+/* strip */
+.strip{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;padding:34px 0;border-top:1px solid var(--line);margin-top:26px}
+.strip .cell{grid-column:span 3;font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--dim);border-left:1px solid var(--line);padding-left:14px}
+.strip .cell b{display:block;font-family:var(--sans);font-size:34px;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px}
+/* cta */
+.cta{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:center;border-top:2px solid var(--ink);margin-top:34px;padding:26px 0 60px}
+.cta p{grid-column:1/span 6;margin:0;font-size:clamp(22px,2.6vw,30px);font-weight:700;letter-spacing:-.03em}
+.cta .links{grid-column:9/span 4;display:flex;gap:22px;justify-content:flex-end;font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
+.cta a{border-bottom:2px solid var(--violet);padding-bottom:3px;color:var(--violet)}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+@media(max-width:900px){
+  .shell{padding:0 18px}
+  .hd .a,.hd .b{display:none}
+  .hd .n{grid-column:span 8}
+  .hd .c{grid-column:span 4}
+  .hero{padding:38px 0 26px}
+  h1{grid-column:1/span 12}
+  .hero .lead{grid-column:1/span 12;margin-top:22px;font-size:17px}
+  .hero .facts{grid-column:1/span 12;margin-top:18px;line-height:1.9}
+  .item{grid-template-columns:34px minmax(0,1fr);row-gap:6px}
+  .item .num{grid-column:1;grid-row:1}
+  .item .title{grid-column:2;grid-row:1}
+  .item .desc{grid-column:2;grid-row:2}
+  .item .tech{grid-column:2;grid-row:3}
+  .item .go{grid-column:2;grid-row:4;text-align:left}
+  .statement h2,.statement p{grid-column:1/span 12}
+  .statement p{margin-top:14px}
+  .strip .cell{grid-column:span 6}
+  .strip .cell:nth-child(n+3){border-left:0;padding-left:0}
+  .cta p{grid-column:1/span 12}
+  .cta .links{grid-column:1/span 12;justify-content:flex-start;margin-top:14px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="hd">
+      <span class="n">Samuel Bugueño Vega</span>
+      <span class="a">Desarrollador de software</span>
+      <span class="b">Coquimbo, Chile</span>
+      <span class="c">Disponible ↗</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Portafolio 2026 — cinco productos</div>
+    <h1>Software<br>publicado<sup>05</sup></h1>
+    <p class="lead">Construyo plataformas web, aplicaciones Android y juegos. Todos los que presento acá tienen usuario real y están en pie: un colegio, un local, una bodega.</p>
+    <div class="facts">
+      <b>Rol</b> full stack<br>
+      <b>Método</b> agentes de IA + verificación<br>
+      <b>Modalidad</b> remoto<br>
+      <b>Idioma</b> español
+    </div>
+  </section>
+
+  <section class="work">
+    <div class="rule"></div>
+    <div class="wlabel"><span>Trabajo</span><span>05 registros / 2025–2026</span></div>
+    <div class="items">
+      <article class="item">
+        <span class="num">01</span>
+        <span class="title">Decide tu carrera</span>
+        <span class="desc">Orientación vocacional con test, cálculo de puntajes y comparación de carreras. En colegios de la región.</span>
+        <span class="tech">SvelteKit<br>TypeScript<br>Firebase</span>
+        <a class="go" href="https://decidetucarrera.web.app" target="_blank" rel="noopener">↗</a>
+      </article>
+
+      <article class="item">
+        <span class="num">02</span>
+        <span class="title">Creando Sabores</span>
+        <span class="desc">Plataforma de talleres culinarios con roles de docente, administración y público. Recetas, PDF y video.</span>
+        <span class="tech">SvelteKit<br>PostgreSQL<br>Auth</span>
+        <a class="go" href="#">↗</a>
+      </article>
+
+      <article class="item">
+        <span class="num">03</span>
+        <span class="title">Los Ñeñecos</span>
+        <span class="desc">Menú digital con carrito y pedidos por WhatsApp para un local de comida al paso en Ovalle.</span>
+        <span class="tech">Web app<br>WhatsApp</span>
+        <a class="go" href="https://nenekos-c1e77.web.app" target="_blank" rel="noopener">↗</a>
+      </article>
+
+      <article class="item">
+        <span class="num">04</span>
+        <span class="title">Sistema de bodega</span>
+        <span class="desc">Inventario y movimientos de stock en una app Android nativa con base local, sin conexión.</span>
+        <span class="tech">Java<br>SQLite<br>Gradle</span>
+        <a class="go" href="#">↗</a>
+      </article>
+
+      <article class="item">
+        <span class="num">05</span>
+        <span class="title">Iron Tide</span>
+        <span class="desc">Juego 3D con oleadas enemigas, armas y feedback de impacto. Camino a itch.io y Steam.</span>
+        <span class="tech">Godot 4<br>GDScript<br>3D</span>
+        <a class="go" href="#">↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="statement">
+    <h2>Trabajo con agentes de IA: ellos ejecutan, yo respondo por el resultado.</h2>
+    <p>No muestro el proceso porque <b>el valor está en el criterio</b>: qué se construye, qué se verifica y qué se descarta. Lo que ves son los cinco productos que pasaron ese filtro.</p>
+  </section>
+
+  <div class="strip">
+    <div class="cell"><b>5</b>productos en producción</div>
+    <div class="cell"><b>3</b>plataformas distintas</div>
+    <div class="cell"><b>2</b>clientes reales</div>
+    <div class="cell"><b>100%</b>trabajo remoto</div>
+  </div>
+
+  <div class="cta">
+    <p>¿Un proyecto en mente?</p>
+    <div class="links"><a href="mailto:">Correo</a><a href="https://github.com/samueleduardobuguenovega-lang" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+</div>
+</body>
+</html>
