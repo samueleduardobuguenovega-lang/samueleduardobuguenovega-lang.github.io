@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es-CL" data-type="1" data-pal="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller de estilos — portafolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0A09'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23C9713F'/%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Instrument Serif";src:url("../assets/fonts/iserif.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("../assets/fonts/iserif-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("../assets/fonts/isans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../assets/fonts/mono.woff2") format("woff2");font-weight:400 500;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("../assets/fonts/fraunces.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Bricolage Grotesque";src:url("../assets/fonts/bricolage.woff2") format("woff2");font-weight:400 700;font-display:swap}
+
+:root{
+  --bg:#0B0A09; --ink:#F2EEE6; --muted:#9C958A; --accent:#C9713F; --line:rgba(242,238,230,.14);
+  --display:"Instrument Serif",Georgia,serif;
+  --display-weight:400; --display-spacing:-.02em; --display-style:italic;
+  --sans:"Instrument Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+html[data-type="1"]{--display:"Instrument Serif",Georgia,serif;--display-weight:400;--display-spacing:-.025em;--display-style:italic}
+html[data-type="2"]{--display:"Fraunces",Georgia,serif;--display-weight:600;--display-spacing:-.03em;--display-style:normal}
+html[data-type="3"]{--display:"Bricolage Grotesque",system-ui,sans-serif;--display-weight:600;--display-spacing:-.035em;--display-style:normal}
+html[data-type="4"]{--display:"Instrument Sans",system-ui,sans-serif;--display-weight:600;--display-spacing:-.045em;--display-style:normal}
+html[data-type="4"] .disp em{font-style:normal;color:var(--accent)}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* barra de control */
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 14px 12px}
+.bar__row{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.bar__row::-webkit-scrollbar{display:none}
+.bar__lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-width:52px}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:7px 11px;border-radius:999px;
+  border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap;
+}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#0B0A09;font-weight:500}
+.sw{width:12px;height:12px;border-radius:50%;display:inline-block;vertical-align:-2px;margin-right:5px;border:1px solid rgba(0,0,0,.25)}
+
+/* vista previa */
+.wrap{padding:22px 18px 60px}
+.top{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+h1.name{font-family:var(--display);font-weight:var(--display-weight);letter-spacing:var(--display-spacing);font-size:clamp(40px,13vw,60px);line-height:.95;margin:14px 0 0}
+h1.name em{font-style:var(--display-style);color:var(--accent)}
+.role{color:var(--muted);font-size:14.5px;margin:12px 0 0;max-width:30ch}
+.nav{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--muted)}
+.nav b{font-family:var(--mono);font-size:10px;color:var(--accent);font-weight:400;margin-right:4px}
+
+.sec{margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
+.kick{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.kick::after{content:"";flex:1;height:1px;background:var(--line)}
+h2.disp{font-family:var(--display);font-weight:var(--display-weight);letter-spacing:var(--display-spacing);font-size:clamp(34px,10.5vw,58px);line-height:1;margin:0;max-width:18ch}
+h2.disp em{font-style:var(--display-style);color:var(--accent)}
+.lead{margin-top:16px;color:color-mix(in srgb,var(--ink) 86%,var(--muted));font-size:16px;max-width:52ch}
+.ledger{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:22px;border-top:1px solid var(--line)}
+.ledger div{padding:10px 0;border-bottom:1px solid var(--line)}
+.ledger b{display:block;font-family:var(--display);font-weight:var(--display-weight);font-size:30px;line-height:1}
+.ledger span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:6px}
+
+.case__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h3.ct{font-family:var(--display);font-weight:var(--display-weight);letter-spacing:var(--display-spacing);font-size:clamp(26px,7.6vw,36px);line-height:1.05;margin:0}
+h3.ct small{display:block;font-family:var(--sans);font-size:13.5px;color:var(--muted);letter-spacing:0;margin-top:6px}
+.lnk{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:2px;white-space:nowrap;color:var(--ink)}
+p.body{margin:14px 0 18px;color:color-mix(in srgb,var(--ink) 84%,var(--muted));font-size:15px}
+p.body strong{color:var(--ink);font-weight:600}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px}
+.phone{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#000}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.meta dt{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.meta dd{margin:0;font-size:13px}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.swatch{font-family:var(--mono);font-size:10px;letter-spacing:.06em;border:1px solid var(--line);border-radius:6px;padding:6px 8px;color:var(--muted)}
+.swatch i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:6px;vertical-align:-1px}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar__row" id="pals">
+    <span class="bar__lbl">Color</span>
+    <button class="chip" data-pal="A"><span class="sw" style="background:#C9713F"></span>A</button>
+    <button class="chip" data-pal="B"><span class="sw" style="background:#B4472C"></span>B</button>
+    <button class="chip" data-pal="C"><span class="sw" style="background:#D9A441"></span>C</button>
+    <button class="chip" data-pal="D"><span class="sw" style="background:#2F5D50"></span>D</button>
+  </div>
+  <div class="bar__row" id="types" style="margin-top:8px">
+    <span class="bar__lbl">Letra</span>
+    <button class="chip" data-type="1">1 serif</button>
+    <button class="chip" data-type="2">2 Fraunces</button>
+    <button class="chip" data-type="3">3 grotesca</button>
+    <button class="chip" data-type="4">4 sans</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="top"><span class="dot"></span>Portafolio · 2026</div>
+  <h1 class="name">Samuel<br><em>Bugueño</em><br>Vega</h1>
+  <p class="role">Desarrollo web y Android. Analista Programador en curso.</p>
+  <nav class="nav">
+    <a href="#"><b>01</b>Trabajo</a><a href="#"><b>02</b>Herramientas</a><a href="#"><b>03</b>Cómo trabajo</a><a href="#"><b>04</b>Formación</a><a href="#"><b>05</b>Contacto</a>
+  </nav>
+
+  <section class="sec">
+    <p class="kick">Apertura</p>
+    <h2 class="disp">Escribo software que <em>ya está</em> en manos de gente.</h2>
+    <p class="lead">Dos sitios en producción —uno de ellos para un local real en Ovalle—, una app Android de bodega con el APK publicado y un shooter cooperativo en Godot.</p>
+    <div class="ledger">
+      <div><b>02</b><span>Sitios en producción</span></div>
+      <div><b>01</b><span>App Android publicada</span></div>
+      <div><b>01</b><span>Juego en desarrollo</span></div>
+      <div><b>05</b><span>Proyectos documentados</span></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <p class="kick">01 — Trabajo</p>
+    <div class="case__top">
+      <h3 class="ct">Brújula<small>Orientación vocacional con el costo real de estudiar</small></h3>
+      <span class="lnk">En vivo ↗</span>
+    </div>
+    <p class="body"><strong>El problema.</strong> Un estudiante de 4° medio decide con el arancel del folleto, que no incluye matrícula, movilización ni costo de vida. <strong>Lo hice.</strong> El producto completo, solo: cálculo de costo real por comuna y ficha por carrera.</p>
+    <div class="shots">
+      <div class="phone"><img src="../assets/brujula-movil.webp" alt="Brújula, inicio" width="390" height="844"></div>
+      <div class="phone"><img src="../assets/brujula-calc.webp" alt="Brújula, calculadora" width="390" height="844"></div>
+    </div>
+    <dl class="meta">
+      <div><dt>Rol</dt><dd>Producto completo, en solitario</dd></div>
+      <div><dt>Stack</dt><dd>SvelteKit 5 · TypeScript · Firebase</dd></div>
+      <div><dt>Pruebas</dt><dd>Playwright · Vitest</dd></div>
+      <div><dt>Estado</dt><dd>En vivo · postulación municipal</dd></div>
+    </dl>
+    <div class="chips" id="swatches"></div>
+  </section>
+</div>
+
+<script>
+const PAL = {
+  A:{name:"Noche cálida",bg:"#0B0A09",ink:"#F2EEE6",muted:"#9C958A",accent:"#C9713F",line:"rgba(242,238,230,.14)"},
+  B:{name:"Papel",bg:"#F4F1EA",ink:"#17140F",muted:"#6B6459",accent:"#B4472C",line:"rgba(23,20,15,.16)"},
+  C:{name:"Petróleo",bg:"#0A1311",ink:"#E9EFE9",muted:"#8C9C93",accent:"#D9A441",line:"rgba(233,239,233,.15)"},
+  D:{name:"Piedra",bg:"#E7E3DA",ink:"#14140F",muted:"#5E5A50",accent:"#2F5D50",line:"rgba(20,20,15,.18)"}
+};
+const root = document.documentElement;
+function applyPal(key){
+  const p = PAL[key]; root.dataset.pal = key;
+  root.style.setProperty("--bg",p.bg); root.style.setProperty("--ink",p.ink);
+  root.style.setProperty("--muted",p.muted); root.style.setProperty("--accent",p.accent);
+  root.style.setProperty("--line",p.line);
+  document.querySelectorAll("#pals .chip").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.pal===key)));
+  document.getElementById("swatches").innerHTML =
+    [`Fondo ${p.bg}`,`Texto ${p.ink}`,`Acento ${p.accent}`,`Gris ${p.muted}`]
+      .map(s=>`<span class="swatch"><i style="background:${s.split(" ")[1]}"></i>${s}</span>`).join("");
+  const u = new URL(location); u.searchParams.set("p",key); history.replaceState(null,"",u);
+}
+function applyType(key){
+  root.dataset.type = key;
+  document.querySelectorAll("#types .chip").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.type===key)));
+  const u = new URL(location); u.searchParams.set("t",key); history.replaceState(null,"",u);
+}
+document.querySelectorAll("#pals .chip").forEach(b=>b.onclick=()=>applyPal(b.dataset.pal));
+document.querySelectorAll("#types .chip").forEach(b=>b.onclick=()=>applyType(b.dataset.type));
+const q = new URLSearchParams(location.search);
+applyPal(q.get("p") || "A"); applyType(q.get("t") || "1");
+</script>
+</body>
+</html>
